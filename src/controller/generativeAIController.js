@@ -22,7 +22,7 @@ console.log("🚀 ~ genAI:", genAI);
 
 const doGetResponse = async (req, res) => {
   try {
-    const { prompt } = req.body;
+    const { prompt } = req.query;
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
     // const prompt = "Write a story about a magic backpack.";
     const result = await model.generateContent(prompt);
@@ -33,7 +33,10 @@ const doGetResponse = async (req, res) => {
     const response = {
       success: true,
       message: "Response send successsfully",
-      data: text,
+      data: {
+        senderId: "01",
+        text,
+      },
     };
     res.status(200).json(response);
   } catch (e) {
@@ -43,7 +46,6 @@ const doGetResponse = async (req, res) => {
       message: "Error in sending response",
     };
     res.status(500).json(response);
-  } finally {
   }
 };
 
